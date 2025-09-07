@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "llm-engineering"
+version = "0.1.0"
+description = ""
+authors = ["Aldenir D Flauzino"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.11"
+zenml = { version = "0.74.0", extras = ["server"] }
+pymongo = "^4.6.2"
+click = "^8.0.1"
+loguru = "^0.7.2"
+poethepoet = "0.29.0"
+
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.9"
+pre-commit = "^3.7.1"
+pytest = "^8.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# ----------------------------------
+# --- Poe the Poet Configuration ---
+# ----------------------------------
+[tool.poe.tasks]
+# Infrastructure
+## Local infrastructure
+local-docker-infrastructure-up = "docker compose up -d"
+local-docker-infrastructure-down = "docker compose stop"
+local-zenml-server-down = "poetry run zenml logout --local"
+local-infrastructure-up = [
+    "local-docker-infrastructure-up",
+    "local-zenml-server-down",
+    "local-zenml-server-up",
+]
+local-infrastructure-down = [
+    "local-docker-infrastructure-down",
+    "local-zenml-server-down",
+]
+set-local-stack = "poetry run zenml stack set default"
+zenml-server-disconnect = "poetry run zenml disconnect"
+
+## Settings
+export-settings-to-zenml = "poetry run python -m tools.run --export-settings"
+delete-settings-zenml = "poetry run zenml secret delete settings"
+
+## Docker
+build-docker-image = "docker buildx build --platform linux/amd64 -t llmtwin -f Dockerfile ."
+run-docker-end-to-end-data-pipeline = "docker run --rm --network host --shm-size=2g --env-file .env llmtwin poetry poe --no-cache --run-end-to-end-data"
+bash-docker-container = "docker run --rm -it --network host --env-file .env llmtwin bash"
+
+# ----------------------------------
+# --- Poe the Poet Configuration ---
+# ----------------------------------
+
+[tool.poe.tasks.local-zenml-server-up]
+control.expr = "sys.platform"
+
+[[tool.poe.tasks.local-zenml-server-up.switch]]
+case = "darwin"
+env = { OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES" }
+cmd = "poetry run zenml login --local"
+
+[[tool.poe.tasks.local-zenml-server-up.switch]]
+case = "win32"
+cmd = "poetry run zenml login --local --blocking"
+
+[[tool.poe.tasks.local-zenml-server-up.switch]]
+cmd = "poetry run zenml login --local"
+
+# Tests
+[tool.poe.tasks.test]
+cmd = "poetry run pytest tests/"
+env = { ENV_FILE = ".env.testing" }
