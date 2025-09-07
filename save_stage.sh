@@ -30,7 +30,7 @@ git add .
 git commit -m "Snapshot of the stage: $STAGE"
 
 # Create a lightweight tag
-git tag "$STAGE"
+git tag -a "$STAGE" -m "Snapshot of the stage: $STAGE"
 
 # Push to GitHub (main branch + tags)
 git push origin main
