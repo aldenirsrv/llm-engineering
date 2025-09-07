@@ -20,7 +20,7 @@ mkdir -p "$DEST"
 if [ -f ".gitignore" ]; then
   rsync -av --exclude-from='.gitignore' / "$DEST/"
 else
-  cp -r /* "$DEST/"
+  cp -r full/* "$DEST/"
 fi
 
 # Add changes to Git

@@ -13,6 +13,7 @@ build/
 readme/
 *.zip
 *.txt
+save_stage.sh
 
 # env and locals secrets
 .env
