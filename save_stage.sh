@@ -18,9 +18,9 @@ mkdir -p "$DEST"
 
 # Copy only tracked files (ignoring .gitignore if present)
 if [ -f ".gitignore" ]; then
-  rsync -av --exclude-from='.gitignore' full/ "$DEST/"
+  rsync -av --exclude-from='.gitignore' / "$DEST/"
 else
-  cp -r full/* "$DEST/"
+  cp -r /* "$DEST/"
 fi
 
 # Add changes to Git
