@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
 fi
 
 STAGE=$1
-DEST="etapas/$STAGE"
+DEST="setps/$STAGE"
 
 mkdir -p "$DEST"
 
