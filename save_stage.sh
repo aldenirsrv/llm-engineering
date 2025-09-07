@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-  echo "Uso: ./save_stage.sh step_or_stage_name"
+  echo "Uso: ./save_stage.sh nome_da_etapa"
   exit 1
 fi
 
@@ -10,9 +10,11 @@ DEST="etapas/$STAGE"
 
 mkdir -p "$DEST"
 
-# Copy just files that isn't in .gitignore
+# Copiar apenas arquivos que não estão no .gitignore
 rsync -av --exclude-from='.gitignore' full/ "$DEST/"
 
 git add .
 git commit -m "Snapshot of the stage: $STAGE"
+
+# cria tag leve (sem mensagem)
 git tag "$STAGE"
