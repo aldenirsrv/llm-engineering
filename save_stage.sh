@@ -16,5 +16,5 @@ rsync -av --exclude-from='.gitignore' full/ "$DEST/"
 git add .
 git commit -m "Snapshot of the stage: $STAGE"
 
-# cria tag leve (sem mensagem)
-git tag "$STAGE"
+# # cria tag leve (sem mensagem)
+# git tag "$STAGE"
