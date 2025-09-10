@@ -1,3 +1,3 @@
 from .nosql import NoSQLBaseDocument
-
-__all__ = ["NoSQLBaseDocument"]
+from .vector import VectorBaseDocument
+__all__ = ["NoSQLBaseDocument", "VectorBaseDocument"]

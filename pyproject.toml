@@ -17,6 +17,14 @@ pymongo = "^4.6.2"
 click = "^8.0.1"
 loguru = "^0.7.2"
 poethepoet = "0.29.0"
+transformers = ">=4.41,<5.0"
+qdrant-client = "^1.15.1"
+sentence-transformers = "^5.1.0"
+chromedriver-autoinstaller = "^0.6.4"
+selenium = "^4.35.0"
+langchain-community = "^0.3.29"
+beautifulsoup4 = "^4.13.5"
+webdriver-manager = "^4.0.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.9"
@@ -26,6 +34,19 @@ pytest = "^8.2.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# Digital data ETL
+selenium = "^4.21.0"
+webdriver-manager = "^4.0.1"
+beautifulsoup4 = "^4.12.3"
+html2text = "^2024.2.26"
+jmespath = "^1.0.1"
+chromedriver-autoinstaller = "^0.6.4"
+
+# Feature engineering
+qdrant-client = "^1.8.0"
+langchain = "^0.2.11"
+sentence-transformers = "^3.0.0"
 
 
 # ----------------------------------
@@ -58,6 +79,7 @@ build-docker-image = "docker buildx build --platform linux/amd64 -t llmtwin -f D
 run-docker-end-to-end-data-pipeline = "docker run --rm --network host --shm-size=2g --env-file .env llmtwin poetry poe --no-cache --run-end-to-end-data"
 bash-docker-container = "docker run --rm -it --network host --env-file .env llmtwin bash"
 
+run-feature-engineering-pipeline = "poetry run python -m full.tools.run --no-cache --run-feature-engineering"
 # ------------------------------------
 # --- DATA ENGINEERING - ETL STEP ---
 # ------------------------------------
