@@ -20,6 +20,7 @@ save_stage.sh
 *.env
 *._env
 *.md.full
+*.DS_Store
 
 
 # Big files
