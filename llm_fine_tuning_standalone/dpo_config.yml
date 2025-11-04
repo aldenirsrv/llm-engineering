@@ -1,0 +1,14 @@
+finetuning_type: dpo
+# model: "meta-llama/Llama-3.1-8B"
+model: "mlx-community/gemma-2-2b-it-4bi"
+dataset_hf_workspace: "mlabonne"
+num_train_epochs: 2
+learning_rate: 2e-6
+beta: 0.5
+adapter_file: "output_dpo"
+quant_bits: 4
+lora_parameters:
+  keys: ["q_proj","k_proj","v_proj","o_proj"]
+  rank: 16
+  alpha: 16.0
+  dropout: 0.05s

@@ -1,0 +1,79 @@
+# Axolotl Configuration for Llama 3.2 Fine-tuning
+
+# Model Configuration
+base_model: meta-llama/Llama-3.2-3B
+model_type: llama
+tokenizer_type: llama
+trust_remote_code: true
+
+# LoRA Configuration
+adapter: lora
+lora_model_dir: ./lora_model
+use_lora: true
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - v_proj
+  - k_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_fan_in_fan_out: false
+
+# Training Configuration
+output_dir: ./axolotl_output
+overwrite_output_dir: true
+num_train_epochs: 3
+per_device_train_batch_size: 2
+per_device_eval_batch_size: 2
+gradient_accumulation_steps: 2
+learning_rate: 5e-5
+lr_scheduler_type: cosine
+warmup_steps: 100
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Optimization
+optim: paged_adamw_32bit
+bf16: false
+fp16: true
+tf32: false
+use_gradient_checkpointing: true
+
+# Data Configuration
+datasets:
+  - path: json
+    data_files:
+      - ./training_data.jsonl
+    type: json
+    split: train
+
+val_set_size: 0.1
+split_type: random
+shuffle_merged_datasets: true
+
+# Sequence Configuration
+max_seq_length: 512
+pad_token_id: 128002
+eos_token_id: 128001
+bos_token_id: 128000
+
+# Logging and Checkpointing
+logging_steps: 10
+save_steps: 50
+eval_steps: 50
+save_strategy: steps
+evaluation_strategy: steps
+save_total_limit: 3
+
+# Device and Precision
+device_map: auto
+dtype: float16
+
+# Misc
+seed: 42
+mixed_precision: fp16
+use_flash_attention_2: false
